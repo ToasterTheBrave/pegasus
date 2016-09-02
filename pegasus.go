@@ -1,4 +1,4 @@
-package main
+package pegasus
 
 import (
 	"flag"
@@ -12,8 +12,6 @@ import (
 type Pegasus struct {
 	brokerList []string
 }
-
-func main() {}
 
 // TODO : use a broker list
 func NewPegasus(brokers string) *Pegasus {

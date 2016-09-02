@@ -1,11 +1,19 @@
 # Overview
-Pegasus is a service that consumes a kafka topic and acts on different keys passed to it.
+Pegasus is a library that allows very simple consuming of a kafka topic.  It utilizes the Shopify.sarama library to do so.
 
 # Usage
 
+This assumes a one-to-one relationship between a running service and a topic consumed.
+
+Create a custom Processor that knows how to react to a message received.  This processor knows the topic it is going to watch, and the current offset.  It defaults to the newest offset.  It must be of the interface found in processor/processor.go
+
+Instantiate a Pegasus instance, passing in a comma separated list of brokers.  Then pass the processor into the StartProcessor() function, and it will watch and react to messages.
+
 # Example
 ```
-docker run --link kafka:kafka -e DOCKERCLOUD_USER=[DOCKERCLOUD_USER_HERE] -e DOCKERCLOUD_APIKEY=[DOCKERCLOUD_APIKEY_HERE] ruppdog/pegasus
+pegasus := NewPegasus("kafka:9092")
+exampleProcessor, _ := processor.NewExampleProcessor("example", sarama.OffsetNewest)
+pegasus.StartProcessor(exampleProcessor)
 ```
 
 # License and Author
